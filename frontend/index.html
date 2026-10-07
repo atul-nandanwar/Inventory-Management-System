@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>InventoryPro | Inventory Management</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-logo">
+                    IP
+                </div>
+
+                <div>
+                    <h2>InventoryPro</h2>
+                    <span>Management System</span>
+                </div>
+
+            </div>
+
+
+            <nav class="navigation">
+
+                <button
+                    class="nav-item active"
+                    data-page="dashboard"
+                >
+                    <span class="nav-icon">⌂</span>
+                    <span>Dashboard</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-page="products"
+                >
+                    <span class="nav-icon">▦</span>
+                    <span>Products</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-page="low-stock"
+                >
+                    <span class="nav-icon">!</span>
+                    <span>Low Stock</span>
+                    <span
+                        class="nav-badge"
+                        id="sidebarLowStock"
+                    >
+                        0
+                    </span>
+                </button>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="system-status">
+
+                    <span class="status-dot"></span>
+
+                    <div>
+                        <strong>System Online</strong>
+                        <small>API Connected</small>
+                    </div>
+
+                </div>
+
+                <p>InventoryPro v1.0</p>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN ================= -->
+
+        <main class="main">
+
+            <!-- TOPBAR -->
+
+            <header class="topbar">
+
+                <div>
+
+                    <p class="breadcrumb">
+                        Inventory Management
+                    </p>
+
+                    <h1 id="pageTitle">
+                        Dashboard
+                    </h1>
+
+                </div>
+
+
+                <div class="topbar-right">
+
+                    <div class="connection">
+                        <span class="status-dot"></span>
+                        Backend Connected
+                    </div>
+
+
+                    <button
+                        class="primary-btn"
+                        id="topAddProduct"
+                    >
+                        + Add Product
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- ================= DASHBOARD PAGE ================= -->
+
+            <section
+                class="page active-page"
+                id="dashboardPage"
+            >
+
+                <div class="welcome">
+
+                    <div>
+
+                        <h2>Inventory Overview</h2>
+
+                        <p>
+                            Monitor your products, stock levels and inventory value.
+                        </p>
+
+                    </div>
+
+                    <span id="currentDate"></span>
+
+                </div>
+
+
+                <!-- STATISTICS -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                            <span>Total Products</span>
+
+                            <strong id="totalProducts">
+                                0
+                            </strong>
+
+                            <small>
+                                Products in inventory
+                            </small>
+
+                        </div>
+
+                        <div class="stat-icon blue">
+                            P
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                            <span>Total Stock</span>
+
+                            <strong id="totalStock">
+                                0
+                            </strong>
+
+                            <small>
+                                Units available
+                            </small>
+
+                        </div>
+
+                        <div class="stat-icon purple">
+                            S
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                            <span>Low Stock</span>
+
+                            <strong id="lowStock">
+                                0
+                            </strong>
+
+                            <small>
+                                Need attention
+                            </small>
+
+                        </div>
+
+                        <div class="stat-icon orange">
+                            !
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                            <span>Inventory Value</span>
+
+                            <strong id="inventoryValue">
+                                ₹0
+                            </strong>
+
+                            <small>
+                                Current stock value
+                            </small>
+
+                        </div>
+
+                        <div class="stat-icon green">
+                            ₹
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT PRODUCTS -->
+
+                <div class="content-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Products</h2>
+
+                            <p>
+                                Recently added inventory items
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            class="text-btn"
+                            data-page-link="products"
+                        >
+                            View all →
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Product ID</th>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="dashboardProducts">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOW STOCK -->
+
+                <div class="content-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Stock Alerts</h2>
+
+                            <p>
+                                Products requiring attention
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            class="text-btn"
+                            data-page-link="low-stock"
+                        >
+                            View alerts →
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="alert-grid"
+                        id="dashboardLowStock"
+                    >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= PRODUCTS PAGE ================= -->
+
+            <section
+                class="page"
+                id="productsPage"
+            >
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <h2>Product Management</h2>
+
+                        <p>
+                            Add, search, update and manage your inventory.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="primary-btn"
+                        id="productsAddButton"
+                    >
+                        + Add Product
+                    </button>
+
+                </div>
+
+
+                <div class="content-card">
+
+                    <div class="toolbar">
+
+                        <div class="search-box">
+
+                            <span>⌕</span>
+
+                            <input
+                                type="text"
+                                id="searchInput"
+                                placeholder="Search by ID, name or category..."
+                            >
+
+                        </div>
+
+
+                        <button
+                            class="secondary-btn"
+                            id="refreshButton"
+                        >
+                            Refresh
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="productTableBody">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= LOW STOCK PAGE ================= -->
+
+            <section
+                class="page"
+                id="low-stockPage"
+            >
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <h2>Stock Alerts</h2>
+
+                        <p>
+                            Monitor products with low or zero inventory.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="alert-grid large"
+                    id="lowStockPageList"
+                >
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= PRODUCT MODAL ================= -->
+
+    <div
+        class="modal"
+        id="productModal"
+    >
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2 id="modalTitle">
+                        Add Product
+                    </h2>
+
+                    <p>
+                        Enter product information below.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="close-btn"
+                    id="closeModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="productForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Product ID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productId"
+                            placeholder="e.g. P001"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Product Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productName"
+                            placeholder="e.g. Arduino UNO"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productCategory"
+                            placeholder="e.g. Electronics"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="productQuantity"
+                            min="0"
+                            placeholder="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="productPrice"
+                            min="0"
+                            step="0.01"
+                            placeholder="0.00"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        id="cancelModal"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        Save Product
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= NOTIFICATION ================= -->
+
+    <div
+        id="notification"
+        class="notification"
+    ></div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
